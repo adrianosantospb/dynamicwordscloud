@@ -1,0 +1,120 @@
+{% extends "shared/layout.html" %}
+
+<!-- Content block. It used to create a cloud words. -->
+{% block content %}
+
+
+<script>
+
+// Time to move the words
+var time = 10000;
+
+// Encapsulate the word cloud functionality
+function wordCloud(selector) {
+
+    var fill = d3.scale.category20();
+
+    //Construct the word cloud's SVG element
+    var svg = d3.select(selector).append("svg")
+        .attr("width", 900)
+        .attr("height", 600)
+        .append("g")
+        .attr("transform", "translate(400,300)");
+
+
+    //Draw the word cloud
+    function draw(words) {
+        var cloud = svg.selectAll("g text")
+                        .data(words, function(d) { return d.text; })
+
+        //Entering words
+        cloud.enter()
+            .append("text")
+            .style("font-family", "Impact")
+            .style("fill", function(d, i) { return fill(i); })
+            .attr("text-anchor", "middle")
+            .attr('font-size', 1)
+            .text(function(d) { return d.text; });
+
+        //Entering and existing words
+        cloud
+            .transition()
+                .duration(time)
+                .style("font-size", function(d) { return d.size + "px"; })
+                .attr("transform", function(d) {
+                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                })
+                .style("fill-opacity", 1);
+
+        //Exiting words
+        cloud.exit()
+            .transition()
+                .duration(time)
+                .style('fill-opacity', 1e-6)
+                .attr('font-size', 1)
+                .remove();
+    }
+
+    //Use the module pattern to encapsulate the visualisation code.
+    return {
+        /* 
+        Recompute the word cloud for a new set of words. This method will
+        asycnhronously call draw when the layout has been computed.
+        */
+        update: function(words) {
+            d3.layout.cloud().size([1200, 900])
+                .words(words)
+                .padding(5)
+                .rotate(function() { return ~~(Math.random() * 2) * 90; })
+                .font("Impact")
+                .fontSize(function(d) { return d.size; })
+                .on("end", draw)
+                .start();
+        }
+    }
+
+}
+
+// Take the words from words.js file (/static/scripts/words.js)
+var words = words_list();
+
+//Prepare one of the sample sentences by removing punctuation,
+// creating an array of words and computing a random size attribute.
+function getWords(i) {
+    return words[i]
+            .replace(/[!\.,:;\?]/g, '')
+            .split(' ')
+            .map(function(d) {
+                return {text: d, size: 10 + Math.random() * 60};
+            })
+}
+
+// Create a words array 
+function getWordsArray(){
+    return words[0].replace(/[!\.,:;\?]/g, '')
+        .split(' ');
+};
+
+
+//This method tells the word cloud to redraw with a new set of words.
+function showNewWords(vis, i) {
+    i = i || 0;
+    vis.update(getWords(i ++ % words.length))
+    setTimeout(function() { showNewWords(vis, i + 1)}, time) //set time to change
+}
+
+//Create a new instance of the word cloud visualisation.
+var myWordCloud = wordCloud('body');
+
+//Start cycling through the data
+showNewWords(myWordCloud);
+
+// Set interval to text to speech
+setInterval(function () {
+    word = getWordsArray() [ Math.floor(Math.random() * getWordsArray().length)]; //get a word (random)
+    responsiveVoice.speak(word)
+}, time); // Time to speak
+
+</script>
+
+{% endblock %}

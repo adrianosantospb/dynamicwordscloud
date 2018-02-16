@@ -1,0 +1,29 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Words Cloud">
+<meta name="author" content="Adriano Santos">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<script
+  src="https://code.jquery.com/jquery-1.12.4.min.js"
+  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<!-- bibliotecas -->
+
+<script src="{{url_for('static', filename='scripts/words.js') }}"></script>
+<script src="{{url_for('static', filename='scripts/d3.js') }}"></script>
+<script src="{{url_for('static', filename='scripts/d3.layout.cloud.js') }}"></script>
+<script src="{{url_for('static', filename='scripts/d3.wordcloud.js') }}"></script>
+
+<!-- Speech to text API -->
+<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+
+<style>
+body {
+  padding-top: 50px;
+}
+</style>

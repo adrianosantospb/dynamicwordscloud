@@ -1,0 +1,29 @@
+{% extends "shared/layout.html" %} 
+
+
+<!-- Content block. It used to create a cloud words. -->
+{% block content %}
+
+
+<div id='wordcloud'></div>
+
+<script>
+
+    //  http://bl.ocks.org/lorenzopub/820bec1dafa6a5cd11aa23c1268edcbf 
+    d3.wordcloud()
+        .size([800, 600])
+        .fill(d3.scale.ordinal().range(["#884400", "#448800", "#888800", "#444400"]))
+        .words(words)
+        .onwordclick(function (d, i) {
+            if (d.href) { window.location = d.href; }
+        })
+        .start();
+        
+    // Text to speech
+    setInterval(function () {
+            word = words[Math.floor(Math.random() * words.length)].text; //get a word (random)
+            responsiveVoice.speak(word)
+        }, 20000);
+</script>
+
+{% endblock %}
