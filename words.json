@@ -1,0 +1,15 @@
+{
+ "words" : [{
+          "word": "string1",
+          "repetitions":3
+         },
+         {
+           "word": "string2",
+          "repetitions":4
+         },
+         {
+          "word": "string3",
+          "repetitions":5
+         }
+         ]
+}
