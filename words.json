@@ -1,15 +1,1 @@
-{
- "words" : [{
-          "word": "string1",
-          "repetitions":3
-         },
-         {
-           "word": "string2",
-          "repetitions":4
-         },
-         {
-          "word": "string3",
-          "repetitions":5
-         }
-         ]
-}
+{"words": [{"word": "Love", "repetitions": 3}, {"word": "Car", "repetitions": 2}, {"word": "Bike", "repetitions": 6}]}
