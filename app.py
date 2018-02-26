@@ -30,6 +30,9 @@ def about():
 def create():
     return render_template("create.html")
 
+@app.route('/shining/')
+def shining():
+    return render_template("shining.html")
 
 
 # Roda app

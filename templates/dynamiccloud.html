@@ -16,22 +16,24 @@ function wordCloud(selector) {
 
     //Construct the word cloud's SVG element
     var svg = d3.select(selector).append("svg")
-        .attr("width", 900)
+        .attr("width", '100%')
         .attr("height", 600)
         .append("g")
-        .attr("transform", "translate(400,300)");
+        .attr("transform", "translate(600,300)");
 
 
     //Draw the word cloud
     function draw(words) {
         var cloud = svg.selectAll("g text")
-                        .data(words, function(d) { return d.text; })
+                        .data(words, function(d) { 
+                        return d.text; })
 
         //Entering words
         cloud.enter()
             .append("text")
             .style("font-family", "Impact")
-            .style("fill", function(d, i) { return fill(i); })
+            .style("fill", function(d, i) {
+                return fill(i); })
             .attr("text-anchor", "middle")
             .attr('font-size', 1)
             .text(function(d) { return d.text; });
@@ -78,6 +80,25 @@ function wordCloud(selector) {
 // Take the words from words.js file (/static/scripts/words.js)
 var words = words_list();
 
+// Set style in selected element
+function getElement(word){
+    var text = document.getElementsByTagName("text");
+    for (var i = 0; i < text.length; i++) {
+        if (text[i].textContent == word) {
+            text[i].setAttribute('class', 'brilho');
+            return text[i];
+        }
+    }
+};
+
+function setLowCaseInSelectedElement(element){
+    setTimeout(function () { 
+        element.style.textTransform = "capitalize";
+        element.style.letterSpacing  = "6px";
+ }, 1000); 
+};
+
+
 //Prepare one of the sample sentences by removing punctuation,
 // creating an array of words and computing a random size attribute.
 function getWords(i) {
@@ -85,7 +106,7 @@ function getWords(i) {
             .replace(/[!\.,:;\?]/g, '')
             .split(' ')
             .map(function(d) {
-                return {text: d, size: 10 + Math.random() * 60};
+                return {text: d, size: 10 + Math.random() * 60, id:d};
             })
 }
 
@@ -112,8 +133,15 @@ showNewWords(myWordCloud);
 // Set interval to text to speech
 setInterval(function () {
     word = getWordsArray() [ Math.floor(Math.random() * getWordsArray().length)]; //get a word (random)
-    responsiveVoice.speak(word)
+    
+    var element = getElement(word);
+    
+    responsiveVoice.speak(word);
+    
+    setLowCaseInSelectedElement(element);
+
 }, time); // Time to speak
+
 
 </script>
 
