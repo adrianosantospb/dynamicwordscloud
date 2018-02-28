@@ -73,6 +73,5 @@ def summary():
     d = util.read_json()
     return jsonify(d)
 
-
 # Roda app
 app.run(debug=True, use_reloader=True)

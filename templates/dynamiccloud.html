@@ -37,11 +37,10 @@ function wordCloud(selector) {
         .append("g")
         .attr("transform", "translate(600,300)");
 
-    //Draw the word cloud
+  //Draw the word cloud
     function draw(words) {
-        var cloud = svg.selectAll("g text")
-                        .data(words, function(d) {
-                        return d.text; })
+        var cloud = svg.selectAll("g text").data(words, function(d) { 
+        return d.text; })
 
         //Entering words
         cloud.enter()
@@ -96,8 +95,6 @@ function wordCloud(selector) {
 // Take the words from words.js file (/static/scripts/words.js)
 var words = words_list();
 
-
-
 // Set style in selected element
 function getElement(word){
     var text = document.getElementsByTagName("text");
@@ -108,12 +105,15 @@ function getElement(word){
         }
     }
 };
+
 function setLowCaseInSelectedElement(element){
     setTimeout(function () {
         element.style.textTransform = "capitalize";
         element.style.letterSpacing  = "6px";
  }, 1000);
 };
+
+
 
 //Prepare one of the sample sentences by removing punctuation,
 // creating an array of words and computing a random size attribute.
@@ -152,16 +152,17 @@ showNewWords(myWordCloud);
 // Set interval to text to speech
 setInterval(function () {
     word = getWordsArray() [ Math.floor(Math.random() * getWordsArray().length)]; //get a word (random)
-
-
-
     var element = getElement(word);
-
-
     responsiveVoice.speak(word);
-
     setLowCaseInSelectedElement(element);
 }, time); // Time to speak
+    
+    var element = getElement(word);
+    responsiveVoice.speak(word);
+    setLowCaseInSelectedElement(element);
+
+}, time); // Time to speak
+
 </script>
 
 {% endblock %}
