@@ -1,0 +1,48 @@
+{% extends "shared/layout.html" %}
+
+{% block content %}
+<head>
+  <meta charset="UTF-8">
+  <title>Beyond Sight</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+    <link rel="stylesheet" href="../static/styles/css/style.css">
+
+  
+</head>
+
+<body>
+
+  
+
+    <h1>Beyond Sight</h1>
+<h2><center><strong>Please provide below 3 keywords that come to your mind after having experienced the exhibition</strong></center></h2>
+<form method="POST">
+  <label>
+    <input type="text" name="first_word" placeholder="First word" required>
+    <span>First word</span>
+  </label>
+  
+  <label>
+    <input type="text" name="second_word" placeholder="Second word" required>
+    <span>Second word</span>
+  </label>
+  
+ 
+  <label>
+    <input type="text" name="third_word"placeholder="Third word" required>
+    <span>Third word</span>
+  </label>
+  
+  <input name="send" type="submit" value="Send">
+</form>
+
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+  
+
+</body>
+
+{% endblock %}

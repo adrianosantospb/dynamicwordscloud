@@ -5,14 +5,30 @@
 
 
 <script>
-
 // Time to move the words
 var time = 10000;
-
 // Encapsulate the word cloud functionality
+var fill = d3.scale.ordinal() .range(["#204D19","#1B2C50","#581D3B","#3F4116","#26120D","#111F32","#321126","#2A0E1D","#0E292A"]);
+
+
+function update_fill() {
+    fill = d3.scale.ordinal() .range(["#f7f7f7"])
+    d3.select("svg").selectAll("text")
+    .style("fill", function(d, i) { return fill(i);});
+
+
+}
+
+
+
+
+
 function wordCloud(selector) {
 
-    var fill = d3.scale.category20();
+
+
+    //d3.scale.ordinal() .range(["#204D19","#1B2C50","#581D3B","#3F4116","#26120D","#111F32","#321126","#2A0E1D","#0E292A"]);
+
 
     //Construct the word cloud's SVG element
     var svg = d3.select(selector).append("svg")
@@ -21,23 +37,22 @@ function wordCloud(selector) {
         .append("g")
         .attr("transform", "translate(600,300)");
 
-
-    //Draw the word cloud
+  //Draw the word cloud
     function draw(words) {
-        var cloud = svg.selectAll("g text")
-                        .data(words, function(d) { 
-                        return d.text; })
+        var cloud = svg.selectAll("g text").data(words, function(d) { 
+        return d.text; })
 
         //Entering words
         cloud.enter()
             .append("text")
-            .style("font-family", "Impact")
+            .style("font-family", "Helvetica")
             .style("fill", function(d, i) {
                 return fill(i); })
+            .style("letterSpacing", "5px")
+            .style("font-weight", "bold")
             .attr("text-anchor", "middle")
             .attr('font-size', 1)
             .text(function(d) { return d.text; });
-
         //Entering and existing words
         cloud
             .transition()
@@ -47,7 +62,6 @@ function wordCloud(selector) {
                     return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
                 })
                 .style("fill-opacity", 1);
-
         //Exiting words
         cloud.exit()
             .transition()
@@ -56,10 +70,9 @@ function wordCloud(selector) {
                 .attr('font-size', 1)
                 .remove();
     }
-
     //Use the module pattern to encapsulate the visualisation code.
     return {
-        /* 
+        /*
         Recompute the word cloud for a new set of words. This method will
         asycnhronously call draw when the layout has been computed.
         */
@@ -74,8 +87,10 @@ function wordCloud(selector) {
                 .start();
         }
     }
-
 }
+
+
+
 
 // Take the words from words.js file (/static/scripts/words.js)
 var words = words_list();
@@ -92,11 +107,12 @@ function getElement(word){
 };
 
 function setLowCaseInSelectedElement(element){
-    setTimeout(function () { 
+    setTimeout(function () {
         element.style.textTransform = "capitalize";
         element.style.letterSpacing  = "6px";
- }, 1000); 
+ }, 1000);
 };
+
 
 
 //Prepare one of the sample sentences by removing punctuation,
@@ -110,8 +126,10 @@ function getWords(i) {
             })
 }
 
-// Create a words array 
+
+// Create a words array
 function getWordsArray(){
+
     return words[0].replace(/[!\.,:;\?]/g, '')
         .split(' ');
 };
@@ -124,24 +142,26 @@ function showNewWords(vis, i) {
     setTimeout(function() { showNewWords(vis, i + 1)}, time) //set time to change
 }
 
+
+
+
 //Create a new instance of the word cloud visualisation.
 var myWordCloud = wordCloud('body');
-
 //Start cycling through the data
 showNewWords(myWordCloud);
-
 // Set interval to text to speech
 setInterval(function () {
     word = getWordsArray() [ Math.floor(Math.random() * getWordsArray().length)]; //get a word (random)
+    var element = getElement(word);
+    responsiveVoice.speak(word);
+    setLowCaseInSelectedElement(element);
+}, time); // Time to speak
     
     var element = getElement(word);
-    
     responsiveVoice.speak(word);
-    
     setLowCaseInSelectedElement(element);
 
 }, time); // Time to speak
-
 
 </script>
 
