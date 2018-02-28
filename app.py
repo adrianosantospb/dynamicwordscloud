@@ -17,9 +17,7 @@
 
 
 # Bibliotecas
-from flask import Flask, request, render_template
-
-
+from flask import Flask, request, render_template, jsonify
 import util
 
 
@@ -65,6 +63,16 @@ def save_updates():
     json_table = request.form['inpt']
     util.save_updates(json_table)
     return render_template('admin.html', words=util.read_json()["words"])
+
+@app.route('/shining/')
+def shining():
+    return render_template("shining.html")
+
+@app.route('/summary')
+def summary():
+    d = util.read_json()
+    return jsonify(d)
+
 
 # Roda app
 app.run(debug=True, use_reloader=True)
