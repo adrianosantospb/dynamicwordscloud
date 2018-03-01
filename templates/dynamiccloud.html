@@ -20,16 +20,7 @@ function update_fill() {
 }
 
 
-
-
-
 function wordCloud(selector) {
-
-
-
-    //d3.scale.ordinal() .range(["#204D19","#1B2C50","#581D3B","#3F4116","#26120D","#111F32","#321126","#2A0E1D","#0E292A"]);
-
-
     //Construct the word cloud's SVG element
     var svg = d3.select(selector).append("svg")
         .attr("width", '100%')
@@ -90,8 +81,6 @@ function wordCloud(selector) {
 }
 
 
-
-
 // Take the words from words.js file (/static/scripts/words.js)
 var words = words_list();
 
@@ -114,7 +103,6 @@ function setLowCaseInSelectedElement(element){
 };
 
 
-
 //Prepare one of the sample sentences by removing punctuation,
 // creating an array of words and computing a random size attribute.
 function getWords(i) {
@@ -124,7 +112,7 @@ function getWords(i) {
             .map(function(d) {
                 return {text: d, size: 10 + Math.random() * 60, id:d};
             })
-}
+};
 
 
 // Create a words array
@@ -140,9 +128,7 @@ function showNewWords(vis, i) {
     i = i || 0;
     vis.update(getWords(i ++ % words.length))
     setTimeout(function() { showNewWords(vis, i + 1)}, time) //set time to change
-}
-
-
+};
 
 
 //Create a new instance of the word cloud visualisation.
@@ -157,12 +143,6 @@ setInterval(function () {
     setLowCaseInSelectedElement(element);
 }, time); // Time to speak
     
-    var element = getElement(word);
-    responsiveVoice.speak(word);
-    setLowCaseInSelectedElement(element);
-
-}, time); // Time to speak
-
 </script>
 
 {% endblock %}
